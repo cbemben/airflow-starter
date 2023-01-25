@@ -24,3 +24,21 @@ mkdir ./dags ./plugins ./logs
 ```bash
 echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_GID=0" > .env
 ```
+
+## mounting network drives on linux
+Network drives are widely used and are typically a dependency when moving data around teams and organizations.
+
+[Redhat documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_file_systems/mounting-an-smb-share-on-red-hat-enterprise-linux_managing-file-systems#proc_manually-mounting-an-smb-share_assembly_mounting-an-smb-share-on-red-hat-enterprise-linux) explaining steps to mount smb drives.
+
+Install the dependency that is a helper for connection to network shares.
+```bash
+sudo yum install cifs-utils 
+```
+
+Run this command with network username and path to network drive, you will be prompted for network password.
+```bash
+mount -t cifs -o username=user_name //server_name/share_name /mnt/
+Password for user_name@//server_name/share_name:  password
+```
+
+This method will not persist if the machine is restarted.
