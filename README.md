@@ -25,6 +25,41 @@ mkdir ./dags ./plugins ./logs
 echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_GID=0" > .env
 ```
 
+## Start or Stop Docker
+```bash
+# To start the airflow docker container, enter the docker directory and run.
+docker-compose up
+
+# to stop the server run
+docker-compose down
+```
+
+## Installing Python packages on the container (e.g. Snowflake connector)
+Add a sub-directory to the airflow docker directory called `packages`. In the new directory create a file called `requirements.txt` and alphabetically list the python packages you would like installed.
+```bash
+cd airflow-docker
+mkdir packages
+touch requirements.txt
+```
+Next, add the newly created packages directory to the volumes section of the `docker-compose.yaml` file.
+```yaml
+  volumes:
+    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
+    - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
+    - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/packages:/opt/airflow/packages
+```
+
+Now install the packages on each of the docker containers.
+```bash
+#look at all the container ids
+docker ps
+
+# enter the container
+docker exec --user="airflow" -ti <container id> /bin/bask
+cd packages && pip install -r requirements.txt
+```
+
 ## mounting network drives on linux
 Network drives are widely used and are typically a dependency when moving data around teams and organizations.
 
