@@ -36,6 +36,8 @@ docker-compose down
 
 ## Installing Python packages on the container (e.g. Snowflake connector)
 Add a sub-directory to the airflow docker directory called `packages`. In the new directory create a file called `requirements.txt` and alphabetically list the python packages you would like installed.
+
+following here: https://medium.com/analytics-vidhya/how-to-connect-snowflake-with-airflow-on-docker-in-order-to-build-a-data-extraction-pipeline-for-e65591f011d6
 ```bash
 cd airflow-docker
 mkdir packages
