@@ -34,6 +34,22 @@ docker-compose up
 docker-compose down
 ```
 
+One consideration before starting docker is what airflow version you want to use. A list of versions can be found on the [docker website](https://hub.docker.com/r/apache/airflow/tags). To define a sepecific version of airflow and python you'll need to update the `image` variable in the `docker-compose.yaml` file. 
+
+```yaml
+version: '3'
+x-airflow-common:
+  &airflow-common
+  # In order to add custom dependencies or upgrade provider packages you can use your extended image.
+  # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
+  # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.5.1-python3.8}
+
+# change the tag to whatever version you want.
+
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.6.1.dev0}
+```
+
 ## Installing Python packages on the container (e.g. Snowflake connector)
 Add a sub-directory to the airflow docker directory called `packages`. In the new directory create a file called `requirements.txt` and alphabetically list the python packages you would like installed.
 
@@ -45,6 +61,14 @@ cd airflow-docker
 mkdir packages
 touch requirements.txt
 ```
+
+The python packages should be listed in alphabetical order, only the package name is needed, each on a sperate line.
+```bash
+apache-airflow-providers-snowflake
+snowflake-connector-python
+snowflake-sqlalchemy
+```
+
 Next, add the newly created packages directory to the volumes section of the `docker-compose.yaml` file.
 ```yaml
   volumes:
