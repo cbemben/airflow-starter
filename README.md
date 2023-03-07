@@ -1,4 +1,5 @@
 # airflow-starter
+Primary source of info came from [Airflow Documentation here](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
 
 ## installing docker on Linux (redhat-)
   - sudo yum -y update         #updates all packages
