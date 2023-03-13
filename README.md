@@ -89,6 +89,17 @@ docker exec --user="airflow" -ti <container id> /bin/bask
 cd packages && pip install -r requirements.txt
 ```
 
+## Permission Denied Error on Container
+This popped up once after rebooting the vm, `docker-compose` cannot bring down the container becuase of permission denied error
+```bash
+ERROR: for airflow-docker_airflow-worker_1  cannot stop container: a892836b5249689439df194e60582b5e324cad525ff03cd06d029373203ceb61: permission denied
+```
+The solution was to kill an apparmor profile.
+```bash
+sudo killall containerd-shim
+sudo docker-compose down
+```
+
 ## mounting network drives on linux
 Network drives are widely used and are typically a dependency when moving data around teams and organizations.
 
