@@ -1,0 +1,4 @@
+apache-airflow-providers-snowflake
+apache-airflow-providers-sendgrid
+snowflake-connector-python
+snowflake-sqlalchemy
